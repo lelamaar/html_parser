@@ -2,17 +2,6 @@
 	#define YYERROR_VERBOSE 1
 	#include <stdio.h>
 	extern int line;
-	/*
-	other: 
-	  | other TAG_START payload other TAG_END TAG_CLOSE
-	  | other TAG_COMMENT_START TAG_COMMENT_END
-
-	payload: TAG_CLOSE
-	   | atr_sequence TAG_CLOSE
-	   
-	atr_sequence: ATTRIBUTE VALUE
-	   | atr_sequence ATTRIBUTE VALUE
-	*/
 %}
 
 %token CLOSING_MORE_SIGN
@@ -23,6 +12,7 @@
 %token TAG_BODY TAG_BODY_CLOSE
 %token COMMON_TAG COMMON_TAG_CLOSE COMMON_VOID_TAG
 %token TAG_TITLE TAG_TITLE_CLOSE TITLE_TEXT
+%token TAG_STYLE TAG_STYLE_CLOSE TAG_SCRIPT TAG_SCRIPT_CLOSE
 %token ATTRIBUTE VALUE
 %%
 
@@ -46,6 +36,8 @@ head_section_start: TAG_HEAD payload
 head_section_content: 
 	   | head_section_content HEAD_SECTION_TAG payload head_section_content HEAD_SECTION_TAG_CLOSE
 	   | head_section_content HEAD_SECTION_VOID_TAG payload
+	   | head_section_content TAG_STYLE payload TAG_STYLE_CLOSE
+	   | head_section_content TAG_SCRIPT payload TAG_SCRIPT_CLOSE
 	   | head_section_content TAG_COMMENT_START TAG_COMMENT_END
 
 title_section: TAG_TITLE payload TITLE_TEXT TAG_TITLE_CLOSE
@@ -58,6 +50,7 @@ body_section_start: TAG_BODY payload
 body_section_content:
 	   | body_section_content COMMON_TAG payload body_section_content COMMON_TAG_CLOSE
 	   | body_section_content COMMON_VOID_TAG payload
+	   | body_section_content TAG_SCRIPT payload TAG_SCRIPT_CLOSE
 	   | body_section_content TAG_COMMENT_START TAG_COMMENT_END
 
 payload: CLOSING_MORE_SIGN

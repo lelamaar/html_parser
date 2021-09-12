@@ -17,6 +17,10 @@
 %x title_attr_exp
 %x title_text_exp
 %x comment_continue
+%x style_section
+%x style_attr_exp
+%x script_section
+%x script_attr_exp
 
 whitespace			[ \t\r\n]
 int       			[0-9]+
@@ -32,12 +36,15 @@ tagTITLE			[tT][iI][tT][lL][eE]
 tagsAC				[aA]|[aA][bB][bB][rR]|[aA][dD][dD][rR][eE][sS][sS]|[aA][rR][tT][iI][cC][lL][eE]|[aA][sS][iI][dD][eE]|[aA][uU][dD][iI][oO]|[bB]|[bB][dD][iI]|[bB][dD][oO]|[bB][lL][oO][cC][kK][qQ][uU][oO][tT][eE]|[bB][uU][tT][tT][oO][nN]|[cC][aA][nN][vV][aA][sS]|[cC][aA][pP][tT][iI][oO][nN]|[cC][iI][tT][eE]|[cC][oO][dD][eE]|[cC][oO][lL][gG][rR][oO][uU][pP]
 tagsDH    			[dD][aA][tT][aA]|[dD][aA][tT][aA][lL][iI][sS][tT]|[dD][dD]|[dD][eE][lL]|[dD][eE][tT][aA][iI][lL][sS]|[dD][fF][nN]|[dD][iI][aA][lL][oO][gG]|[dD][iI][vV]|[dD][lL]|[dD][tT]|[eE][mM]|[eE][mM][bB][eE][dD]|[fF][iI][eE][lL][dD][sS][eE][tT]|[fF][iI][g][cC][aA][pP][tT][iI][oO][nN]|[fF][iI][gG][uU][rR][eE]|[fF][oO][oO][tT][eE][rR]|[fF][oO][rR][mM]|[hH]1|[hH]2|[hH]3|[hH]4|[hH]5|[hH]6|[hH][eE][aA][dD][eE][rR]|[hH][gG][rR][oO][uU][pP]
 tagsIO    			[iI]|[iI][fF][rR][aA][mM][eE]|[iI][nN][sS]|[kK][bB][dD]|[lL][aA][bB][eE][lL]|[lL][eE][gG][eE][nN][dD]|[lL][iI]|[mM][aA][iI][nN]|[mM][aA][pP]|[mM][aA][rR][kK]|[mM][eE][tT][eE][rR]|[nN][aA][vV]|[oO][bB][jJ][eE][cC][tT]|[oO][lL]|[oO][pP][tT][gG][rR][oO][uU][pP]|[oO][pP][tT][iI][oO][nN]|[oO][uU][tT][pP][uU][tT]|[mM][eE][nN][uU]
-tagsPS    			[pP]|[pP][iI][cC][tT][uU][rR][eE]|[pP][rR][eE]|[pP][rR][oO][gG][rR][eE][sS][sS]|[qQ]|[rR][pP]|[rR][tT]|[rR][uU][bB][yY]|[sS]|[sS][aA][mM][pP]|[sS][eE][cC][tT][iI][oO][nN]|[sS][eE][lL][eE][cC][tT]|[sS][mM][aA][lL][lL]|[sS][pP][aA][nN]|[sS][tT][rR][oO][nN][gG]|[sS][tT][yY][lL][eE]|[sS][uU][bB]|[sS][uU][mM][mM][aA][rR][yY]|[sS][uU][pP]|[sS][vV][gG]
+tagsPS    			[pP]|[pP][iI][cC][tT][uU][rR][eE]|[pP][rR][eE]|[pP][rR][oO][gG][rR][eE][sS][sS]|[qQ]|[rR][pP]|[rR][tT]|[rR][uU][bB][yY]|[sS]|[sS][aA][mM][pP]|[sS][eE][cC][tT][iI][oO][nN]|[sS][eE][lL][eE][cC][tT]|[sS][mM][aA][lL][lL]|[sS][pP][aA][nN]|[sS][tT][rR][oO][nN][gG]|[sS][uU][bB]|[sS][uU][mM][mM][aA][rR][yY]|[sS][uU][pP]|[sS][vV][gG]
 tagsTW   			[tT][aA][bB][lL][eE]|[tT][bB][oO][dD][yY]|[tT][dD]|[tT][eE][mM][pP][lL][aA][tT][eE]|[tT][eE][xX][tT][aA][rR][eE][aA]|[tT][fF][oO][oO][tT]|[tT][hH]|[tT][hH][eE][aA][dD]|[tT][iI][mM][eE]|[tT][iI][tT][lL][eE]|[tT][rR]|[tT][rR][aA][cC][kK]|[uU]|[uU][lL]|[vV][aA][rR]|[vV][iI][dD][eE][oO]|[wW][bB][rR]
 
 tagsALL				{tagsAC}|{tagsDH}|{tagsIO}|{tagsPS}|{tagsTW}
 
-headTags			[sS][tT][yY][lL][eE]|[nN][oO][sS][cC][rR][iI][pP][tT]|[sS][cC][rR][iI][pP][tT]
+styleTag			[sS][tT][yY][lL][eE]
+scriptTag			[sS][cC][rR][iI][pP][tT]
+
+headTags			[nN][oO][sS][cC][rR][iI][pP][tT]
 headTagsVoid		[mM][eE][tT][aA]|[bB][aA][sS][eE]|[lL][iI][nN][kK]
 
 voidTags			[bB][rR]|[hH][rR]|[iI][nN][pP][uU][tT]|[aA][rR][eE][aA]|[cC][oO][lL]|[iI][mM][gG]|[pP][aA][rR][aA][mM]|[cC][oO][mM][mM][aA][nN][dD]|[sS][oO][uU][rR][cC][eE]
@@ -71,13 +78,13 @@ xmlTAG				"<\?"[xX][mM][lL]
 
 
 {xmlTAG} {
-	printf("xml: %s\n", yytext);
+	//printf("xml: %s\n", yytext);
 	printf("ERROR: XML declaration %d.\n", line);
 	exit(-1);
 }
 
 {cdataTag} {
-	printf("cdata: %s\n", yytext);
+	//printf("cdata: %s\n", yytext);
 	printf("ERROR: CDATA declaration (XML), %d.\n", line);
 	exit(-1);	
 }
@@ -120,13 +127,6 @@ xmlTAG				"<\?"[xX][mM][lL]
 	tagStackPush(yytext);
 	BEGIN(attr_exp);
 	return COMMON_TAG;
-}
-
-\<{headTags} {
-	printf("start head tag: %s\n", yytext);
-	tagStackPush(yytext);
-	BEGIN(attr_exp);
-	return HEAD_SECTION_TAG;
 }
 
 \<\/{tagHTML}\> {
@@ -187,6 +187,18 @@ xmlTAG				"<\?"[xX][mM][lL]
 	printf("head void tag: %s\n", yytext);
     BEGIN(attr_exp);
 	return HEAD_SECTION_VOID_TAG;
+}
+
+\<{styleTag} {
+	printf("style tag open: %s\n", yytext);
+	BEGIN(style_attr_exp);
+	return TAG_STYLE;
+}
+
+\<{scriptTag} {
+	printf("script tag open: %s\n", yytext);
+	BEGIN(script_attr_exp);
+	return TAG_SCRIPT;
 }
 
 \<{voidTags}{whitespace}+\/\> {
@@ -307,8 +319,100 @@ xmlTAG				"<\?"[xX][mM][lL]
 	. ;
 }
 
-{str} {
-	printf("str: %s\n", yytext);
+<style_attr_exp>{
+	{attributesALL}{whitespace}*[=] { 
+		printf("[attr ok]: %s\n", yytext);
+		return ATTRIBUTE; 
+	}
+	
+	{oldVersionAttr}{whitespace}*[=] { 
+		//printf("[old attr]: %s\n", yytext);
+		printf("WARNING: no HTML5 attribute %s, %d\n", yytext, line);
+		return ATTRIBUTE; 
+	}
+	
+	{name}{whitespace}*[=] { 
+		//printf("[unknown attr]: %s\n", yytext);
+		
+		printf("WARNING: unknown attribute %s, %d\n", yytext, line);
+		return ATTRIBUTE;
+	}
+			 
+	{whitespace}*{attributesValue} {
+		printf("[attr value ok]: %s\n", yytext);
+		return VALUE;
+	}
+			
+	{whitespace} ;
+	
+	[>] {
+		printf("CLOSING_MORE_SIGN after style: %s\n", yytext);
+		BEGIN(style_section);
+		//return TAG_CLOSE;
+		return CLOSING_MORE_SIGN;
+	}
+}
+
+<style_section>{
+	\<\/{styleTag}\> {
+		printf("style tag close: %s\n", yytext);
+		BEGIN(0);
+		return TAG_STYLE_CLOSE;
+	}
+
+	[\n] {
+		line++;
+	}
+
+	. ;
+}
+
+<script_attr_exp>{
+	{attributesALL}{whitespace}*[=] { 
+		printf("[attr ok]: %s\n", yytext);
+		return ATTRIBUTE; 
+	}
+	
+	{oldVersionAttr}{whitespace}*[=] { 
+		//printf("[old attr]: %s\n", yytext);
+		printf("WARNING: no HTML5 attribute %s, %d\n", yytext, line);
+		return ATTRIBUTE; 
+	}
+	
+	{name}{whitespace}*[=] { 
+		//printf("[unknown attr]: %s\n", yytext);
+		
+		printf("WARNING: unknown attribute %s, %d\n", yytext, line);
+		return ATTRIBUTE;
+	}
+			 
+	{whitespace}*{attributesValue} {
+		printf("[attr value ok]: %s\n", yytext);
+		return VALUE;
+	}
+			
+	{whitespace} ;
+	
+	[>] {
+		printf("CLOSING_MORE_SIGN after script: %s\n", yytext);
+		BEGIN(script_section);
+		//return TAG_CLOSE;
+		return CLOSING_MORE_SIGN;
+	}
+}
+
+<script_section>{
+	\<\/{scriptTag}\> {
+		printf("script tag close: %s\n", yytext);
+		BEGIN(0);
+		return TAG_SCRIPT_CLOSE;
+	}
+
+	[\n] {
+		line++;
+	}
+
+	. ;
 }
 
 {commentTagStart} {
@@ -329,6 +433,10 @@ xmlTAG				"<\?"[xX][mM][lL]
 	}
 
 	. ;
+}
+
+{str} {
+	printf("str: %s\n", yytext);
 }
 
 [\n] {
