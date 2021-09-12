@@ -40,11 +40,11 @@ tagsPS    			[pP]|[pP][iI][cC][tT][uU][rR][eE]|[pP][rR][eE]|[pP][rR][oO][gG][rR]
 tagsTW   			[tT][aA][bB][lL][eE]|[tT][bB][oO][dD][yY]|[tT][dD]|[tT][eE][mM][pP][lL][aA][tT][eE]|[tT][eE][xX][tT][aA][rR][eE][aA]|[tT][fF][oO][oO][tT]|[tT][hH]|[tT][hH][eE][aA][dD]|[tT][iI][mM][eE]|[tT][iI][tT][lL][eE]|[tT][rR]|[tT][rR][aA][cC][kK]|[uU]|[uU][lL]|[vV][aA][rR]|[vV][iI][dD][eE][oO]|[wW][bB][rR]
 
 tagsALL				{tagsAC}|{tagsDH}|{tagsIO}|{tagsPS}|{tagsTW}
+generalTags			[nN][oO][sS][cC][rR][iI][pP][tT]
 
 styleTag			[sS][tT][yY][lL][eE]
 scriptTag			[sS][cC][rR][iI][pP][tT]
 
-headTags			[nN][oO][sS][cC][rR][iI][pP][tT]
 headTagsVoid		[mM][eE][tT][aA]|[bB][aA][sS][eE]|[lL][iI][nN][kK]
 
 voidTags			[bB][rR]|[hH][rR]|[iI][nN][pP][uU][tT]|[aA][rR][eE][aA]|[cC][oO][lL]|[iI][mM][gG]|[pP][aA][rR][aA][mM]|[cC][oO][mM][mM][aA][nN][dD]|[sS][oO][uU][rR][cC][eE]
@@ -94,7 +94,6 @@ xmlTAG				"<\?"[xX][mM][lL]
 	tagStackPush(yytext);
 	BEGIN(attr_exp);
 	return TAG_HTML;
-	//return TAG_START;
 }
 
 \<{tagHEAD} {
@@ -102,7 +101,6 @@ xmlTAG				"<\?"[xX][mM][lL]
 	tagStackPush(yytext);
 	BEGIN(attr_exp);
 	return TAG_HEAD;
-	//return TAG_START;
 }
 
 \<{tagBODY} {
@@ -110,16 +108,13 @@ xmlTAG				"<\?"[xX][mM][lL]
 	tagStackPush(yytext);
 	BEGIN(attr_exp);
 	return TAG_BODY;
-	//return TAG_START;
 }
 
 \<{tagTITLE} {
-	/////////////////////////////////////////////////////ÑÄÅËÀÒÜ Ñ×ÅÒ×ÈÊ êîëè÷åñòâà
 	printf("start title tag: %s\n", yytext);
 	tagStackPush(yytext);
 	BEGIN(title_attr_exp);
 	return TAG_TITLE;
-	//return HEAD_SECTION_TAG;
 }
 
 \<{tagsALL} {
@@ -148,24 +143,22 @@ xmlTAG				"<\?"[xX][mM][lL]
 }
 
 \<\/{tagTITLE}\> {
-	/////////////////////////////////////////////////////ÑÄÅËÀÒÜ Ñ×ÅÒ×ÈÊ êîëè÷åñòâà
 	printf("close title tag: %s\n", yytext);
 	tagStackPush(yytext);
 	return TAG_TITLE_CLOSE;
-	//return HEAD_SECTION_TAG_CLOSE;
 }
 
-\<{headTags} {
-	printf("start head section tag: %s\n", yytext);
+\<{generalTags} {
+	printf("start general tag: %s\n", yytext);
 	tagStackPush(yytext);
 	BEGIN(attr_exp);
-	return HEAD_SECTION_TAG;
+	return GENERAL_TAG;
 }
 
-\<\/{headTags}\> {
-	printf("close head section tag: %s\n", yytext);
+\<\/{generalTags}\> {
+	printf("close general tag: %s\n", yytext);
 	tagStackPush(yytext);
-	return HEAD_SECTION_TAG_CLOSE;
+	return GENERAL_TAG_CLOSE;
 }
 
 \<{oldVersionTags} { 
@@ -208,8 +201,6 @@ xmlTAG				"<\?"[xX][mM][lL]
 \<\/{tagsALL}/> { 
 	printf("[end tag ok]: %s\n", yytext);
 	tagStackCheck(yytext);
-	//BEGIN(attr_exp);
-	//return TAG_END;
 	return COMMON_TAG_CLOSE;
 }
 			 
@@ -218,7 +209,7 @@ xmlTAG				"<\?"[xX][mM][lL]
 				printf("WARNING: unknown tag %s, %d\n", yytext, line);
 			 }
 			 
-\<\/{name} { 
+\<\/{name}/> { 
 				//printf("unknown end tag: %s\n", yytext);
 				printf("WARNING: unknown end tag %s, %d\n", yytext, line);
 				//BEGIN(attr_exp);
