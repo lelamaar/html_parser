@@ -19,9 +19,9 @@
 %token TAG_DOCKTYPE TAG_COMMENT_START TAG_COMMENT_END
 %token TAG_HTML TAG_HTML_CLOSE
 %token TAG_HEAD TAG_HEAD_CLOSE
-%token HEAD_SECTION_TAG HEAD_SECTION_TAG_CLOSE
+%token HEAD_SECTION_TAG HEAD_SECTION_TAG_CLOSE HEAD_SECTION_VOID_TAG
 %token TAG_BODY TAG_BODY_CLOSE
-%token COMMON_TAG COMMON_TAG_CLOSE
+%token COMMON_TAG COMMON_TAG_CLOSE COMMON_VOID_TAG
 %token TAG_TITLE TAG_TITLE_CLOSE TITLE_TEXT
 %token ATTRIBUTE VALUE
 %%
@@ -45,6 +45,7 @@ head_section_start: TAG_HEAD payload
 
 head_section_content: 
 	   | head_section_content HEAD_SECTION_TAG payload head_section_content HEAD_SECTION_TAG_CLOSE
+	   | head_section_content HEAD_SECTION_VOID_TAG payload
 	   | head_section_content TAG_COMMENT_START TAG_COMMENT_END
 
 title_section: TAG_TITLE payload TITLE_TEXT TAG_TITLE_CLOSE
@@ -56,6 +57,7 @@ body_section_start: TAG_BODY payload
 
 body_section_content:
 	   | body_section_content COMMON_TAG payload body_section_content COMMON_TAG_CLOSE
+	   | body_section_content COMMON_VOID_TAG payload
 	   | body_section_content TAG_COMMENT_START TAG_COMMENT_END
 
 payload: CLOSING_MORE_SIGN
