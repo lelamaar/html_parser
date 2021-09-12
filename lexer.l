@@ -153,13 +153,6 @@ xmlTAG				"<\?"[xX][mM][lL]
 	return HEAD_SECTION_TAG_CLOSE;
 }
 
-\<{tagsALL} {
-	printf("start tag: %s\n", yytext);
-	tagStackPush(yytext);
-	BEGIN(attr_exp);
-	return COMMON_TAG;
-}
-
 \<{headTags} {
 	printf("start head section tag: %s\n", yytext);
 	tagStackPush(yytext);
@@ -196,10 +189,10 @@ xmlTAG				"<\?"[xX][mM][lL]
 	printf("selfclosing void tag: %s\n", yytext);
 }
 			 
-\<\/{tagsALL} { 
+\<\/{tagsALL}/> { 
 	printf("[end tag ok]: %s\n", yytext);
 	tagStackCheck(yytext);
-	BEGIN(attr_exp);
+	//BEGIN(attr_exp);
 	//return TAG_END;
 	return COMMON_TAG_CLOSE;
 }

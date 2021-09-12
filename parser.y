@@ -52,7 +52,7 @@ body_section_start: TAG_BODY payload
 				  | comments_before_open_tag TAG_BODY payload
 
 body_section_content:
-	   | body_section_content COMMON_TAG payload body_section_content COMMON_TAG_CLOSE 
+	   | body_section_content COMMON_TAG payload body_section_content COMMON_TAG_CLOSE
 	   | body_section_content TAG_COMMENT_START TAG_COMMENT_END
 
 payload: CLOSING_MORE_SIGN
