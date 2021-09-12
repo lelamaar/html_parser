@@ -14,6 +14,8 @@
 
 %option stack yylineno
 %x attr_exp
+%x title_attr_exp
+%x title_text_exp
 %x comment_continue
 
 whitespace			[ \t\r\n]
@@ -106,11 +108,11 @@ xmlTAG				"<\?"[xX][mM][lL]
 
 \<{tagTITLE} {
 	/////////////////////////////////////////////////////СДЕЛАТЬ СЧЕТЧИК количества
-	printf("start head section tag: %s\n", yytext);
+	printf("start title tag: %s\n", yytext);
 	tagStackPush(yytext);
-	BEGIN(attr_exp);
-	//return TAG_TITLE;
-	return HEAD_SECTION_TAG;
+	BEGIN(title_attr_exp);
+	return TAG_TITLE;
+	//return HEAD_SECTION_TAG;
 }
 
 \<{tagsALL} {
@@ -147,10 +149,10 @@ xmlTAG				"<\?"[xX][mM][lL]
 
 \<\/{tagTITLE}\> {
 	/////////////////////////////////////////////////////СДЕЛАТЬ СЧЕТЧИК количества
-	printf("close head section tag: %s\n", yytext);
+	printf("close title tag: %s\n", yytext);
 	tagStackPush(yytext);
-	//return TAG_TITLE;
-	return HEAD_SECTION_TAG_CLOSE;
+	return TAG_TITLE_CLOSE;
+	//return HEAD_SECTION_TAG_CLOSE;
 }
 
 \<{headTags} {
@@ -253,6 +255,54 @@ xmlTAG				"<\?"[xX][mM][lL]
 		//return TAG_CLOSE;
 		return CLOSING_MORE_SIGN;
 	}
+}
+
+<title_attr_exp>{
+	{attributesALL}{whitespace}*[=] { 
+		printf("[attr ok]: %s\n", yytext);
+		return ATTRIBUTE; 
+	}
+	
+	{oldVersionAttr}{whitespace}*[=] { 
+		//printf("[old attr]: %s\n", yytext);
+		printf("WARNING: no HTML5 attribute %s, %d\n", yytext, line);
+		return ATTRIBUTE; 
+	}
+	
+	{name}{whitespace}*[=] { 
+		//printf("[unknown attr]: %s\n", yytext);
+		
+		printf("WARNING: unknown attribute %s, %d\n", yytext, line);
+		return ATTRIBUTE;
+	}
+			 
+	{whitespace}*{attributesValue} {
+		printf("[attr value ok]: %s\n", yytext);
+		return VALUE;
+	}
+			
+	{whitespace} ;
+	
+	[>] {
+		printf("CLOSING_MORE_SIGN after title: %s\n", yytext);
+		BEGIN(title_text_exp);
+		//return TAG_CLOSE;
+		return CLOSING_MORE_SIGN;
+	}
+}
+
+<title_text_exp>{
+	\<\/{tagTITLE}\> {
+		printf("Empty TITLE_TEXT");
+		return TAG_TITLE_CLOSE;
+	}
+
+	[^ \t\r\n] {
+		BEGIN(0);
+		return TITLE_TEXT;
+	}
+
+	. ;
 }
 
 {str} {
