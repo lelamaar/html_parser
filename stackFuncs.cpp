@@ -15,10 +15,9 @@ tagStack* top;
 tagStack* root;
 
 void tagStackPush(char* value) {
-	tagStack *tmp, *tmp2;
+	tagStack* tmp, * tmp2;
 	tmp = (tagStack*)malloc(sizeof(tagStack));
 	tmp2 = (tagStack*)malloc(sizeof(tagStack));
-	//strcpy(tmp.tagName, value);
 	for (int i = 0; i < strlen(value); i++)
 		tmp->tagName[i] = value[i];
 	tmp->tagName[strlen(value)] = '\0';
@@ -77,21 +76,26 @@ void tagStackPrint() {
 
 	tmp = top;
 	while (tmp != NULL) {
-		printf(" %s ",tmp->tagName);
-		tmp = tmp->link;	
+		printf(" %s ", tmp->tagName);
+		tmp = tmp->link;
 	}
 }
 
 
 void tagStackCheck(char* data) {
+	if (tagStackIsEmpty()) {
+		printf("ERROR: there were no opening tags.\n");
+		exit(-1);
+	}
 	int i;
 	char newData[20];
 	newData[0] = '<';
 	for (i = 2; i < strlen(data); i++)
 		newData[i - 1] = data[i];
-	newData[i-1] = '\0';
+	newData[i - 2] = '\0';
 	if (strcmp(newData, tagStackTop())) {
-		printf("ERROR: incorrect nesting of tags %s %s, line %d\n", newData, tagStackTop(), line);
+		printf("ERROR: incorrect nesting of tags on line %d.\n", line);
+		printf("Expected: %s>; received: %s>.\n", tagStackTop(), newData);
 		tagStackDeinit();
 		exit(-1);
 	}

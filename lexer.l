@@ -27,7 +27,7 @@ int       			[0-9]+
 name 				[a-zA-Z_]+[:a-zA-Z_0-9\.\-]*
 str 				[a-zA-Z_]+[ :a-zA-Z_0-9\.]*
 
-tagDOCTYPE			\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL]*
+tagDOCTYPE			\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL]
 tagHTML				[hH][tT][mM][lL]
 tagHEAD				[hH][eE][aA][dD]
 tagBODY				[bB][oO][dD][yY]
@@ -37,7 +37,7 @@ tagsAC				[aA]|[aA][bB][bB][rR]|[aA][dD][dD][rR][eE][sS][sS]|[aA][rR][tT][iI][cC
 tagsDH    			[dD][aA][tT][aA]|[dD][aA][tT][aA][lL][iI][sS][tT]|[dD][dD]|[dD][eE][lL]|[dD][eE][tT][aA][iI][lL][sS]|[dD][fF][nN]|[dD][iI][aA][lL][oO][gG]|[dD][iI][vV]|[dD][lL]|[dD][tT]|[eE][mM]|[eE][mM][bB][eE][dD]|[fF][iI][eE][lL][dD][sS][eE][tT]|[fF][iI][g][cC][aA][pP][tT][iI][oO][nN]|[fF][iI][gG][uU][rR][eE]|[fF][oO][oO][tT][eE][rR]|[fF][oO][rR][mM]|[hH]1|[hH]2|[hH]3|[hH]4|[hH]5|[hH]6|[hH][eE][aA][dD][eE][rR]|[hH][gG][rR][oO][uU][pP]
 tagsIO    			[iI]|[iI][fF][rR][aA][mM][eE]|[iI][nN][sS]|[kK][bB][dD]|[lL][aA][bB][eE][lL]|[lL][eE][gG][eE][nN][dD]|[lL][iI]|[mM][aA][iI][nN]|[mM][aA][pP]|[mM][aA][rR][kK]|[mM][eE][tT][eE][rR]|[nN][aA][vV]|[oO][bB][jJ][eE][cC][tT]|[oO][lL]|[oO][pP][tT][gG][rR][oO][uU][pP]|[oO][pP][tT][iI][oO][nN]|[oO][uU][tT][pP][uU][tT]|[mM][eE][nN][uU]
 tagsPS    			[pP]|[pP][iI][cC][tT][uU][rR][eE]|[pP][rR][eE]|[pP][rR][oO][gG][rR][eE][sS][sS]|[qQ]|[rR][pP]|[rR][tT]|[rR][uU][bB][yY]|[sS]|[sS][aA][mM][pP]|[sS][eE][cC][tT][iI][oO][nN]|[sS][eE][lL][eE][cC][tT]|[sS][mM][aA][lL][lL]|[sS][pP][aA][nN]|[sS][tT][rR][oO][nN][gG]|[sS][uU][bB]|[sS][uU][mM][mM][aA][rR][yY]|[sS][uU][pP]|[sS][vV][gG]
-tagsTW   			[tT][aA][bB][lL][eE]|[tT][bB][oO][dD][yY]|[tT][dD]|[tT][eE][mM][pP][lL][aA][tT][eE]|[tT][eE][xX][tT][aA][rR][eE][aA]|[tT][fF][oO][oO][tT]|[tT][hH]|[tT][hH][eE][aA][dD]|[tT][iI][mM][eE]|[tT][iI][tT][lL][eE]|[tT][rR]|[tT][rR][aA][cC][kK]|[uU]|[uU][lL]|[vV][aA][rR]|[vV][iI][dD][eE][oO]|[wW][bB][rR]
+tagsTW   			[tT][aA][bB][lL][eE]|[tT][bB][oO][dD][yY]|[tT][dD]|[tT][eE][mM][pP][lL][aA][tT][eE]|[tT][eE][xX][tT][aA][rR][eE][aA]|[tT][fF][oO][oO][tT]|[tT][hH]|[tT][hH][eE][aA][dD]|[tT][iI][mM][eE]|[tT][rR]|[tT][rR][aA][cC][kK]|[uU]|[uU][lL]|[vV][aA][rR]|[vV][iI][dD][eE][oO]|[wW][bB][rR]
 
 tagsALL				{tagsAC}|{tagsDH}|{tagsIO}|{tagsPS}|{tagsTW}
 generalTags			[nN][oO][sS][cC][rR][iI][pP][tT]
@@ -70,11 +70,18 @@ commentTagStart		"\<\!\-\-"
 commentTagEnd		"\-\-\>"
 cdataTag			"\<!\[CDATA"
 xmlTAG				"<\?"[xX][mM][lL]			
+tagDOCTYPEold		\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL][ ]+[pP][uU][bB][lL][iI][cC]
 			
 %%
 \<{tagDOCTYPE}\> {
 	//printf("docktype: %s\n", yytext);
 	return TAG_DOCKTYPE;
+}
+
+\<{tagDOCTYPEold} {
+	//printf("docktype: %s\n", yytext);
+	printf("ERROR: non-HTML5 docktype element on line %d.\n", line);
+	exit(-1);
 }
 
 {xmlTAG} {
@@ -91,28 +98,27 @@ xmlTAG				"<\?"[xX][mM][lL]
 
 \<{tagHTML} {
 	//printf("start html tag: %s\n", yytext);
-	tagStackPush(yytext);
+	//tagStackPush(yytext);
 	BEGIN(attr_exp);
 	return TAG_HTML;
 }
 
 \<{tagHEAD} {
 	//printf("start head tag: %s\n", yytext);
-	tagStackPush(yytext);
+	//tagStackPush(yytext);
 	BEGIN(attr_exp);
 	return TAG_HEAD;
 }
 
 \<{tagBODY} {
 	//printf("start body tag: %s\n", yytext);
-	tagStackPush(yytext);
+	//tagStackPush(yytext);
 	BEGIN(attr_exp);
 	return TAG_BODY;
 }
 
 \<{tagTITLE} {
 	//printf("start title tag: %s\n", yytext);
-	tagStackPush(yytext);
 	BEGIN(title_attr_exp);
 	return TAG_TITLE;
 }
@@ -126,38 +132,37 @@ xmlTAG				"<\?"[xX][mM][lL]
 
 \<\/{tagHTML}{whitespace}*\> {
 	//printf("close html tag: %s\n", yytext);
-	tagStackPush(yytext);
+	//tagStackCheck(yytext);
 	return TAG_HTML_CLOSE;
 }
 
 \<\/{tagHEAD}{whitespace}*\> {
 	//printf("close head tag: %s\n", yytext);
-	tagStackPush(yytext);
+	//tagStackCheck(yytext);
 	return TAG_HEAD_CLOSE;
 }
 
 \<\/{tagBODY}{whitespace}*\> {
 	//printf("close body tag: %s\n", yytext);
-	tagStackPush(yytext);
+	//tagStackCheck(yytext);
 	return TAG_BODY_CLOSE;
 }
 
 \<\/{tagTITLE}{whitespace}*\> {
 	//printf("close title tag: %s\n", yytext);
-	tagStackPush(yytext);
 	return TAG_TITLE_CLOSE;
 }
 
 \<{generalTags} {
 	//printf("start general tag: %s\n", yytext);
-	tagStackPush(yytext);
+	//tagStackPush(yytext);
 	BEGIN(attr_exp);
 	return GENERAL_TAG;
 }
 
 \<\/{generalTags}{whitespace}*\> {
 	//printf("close general tag: %s\n", yytext);
-	tagStackPush(yytext);
+	//tagStackCheck(yytext);
 	return GENERAL_TAG_CLOSE;
 }
 
@@ -193,7 +198,7 @@ xmlTAG				"<\?"[xX][mM][lL]
 	return TAG_SCRIPT;
 }
 			 
-\<\/{tagsALL}{whitespace}*/> { 
+\<\/{tagsALL}{whitespace}*\> { 
 	//printf("[end tag ok]: %s\n", yytext);
 	tagStackCheck(yytext);
 	return COMMON_TAG_CLOSE;
@@ -207,14 +212,14 @@ xmlTAG				"<\?"[xX][mM][lL]
 	//return COMMON_TAG;
 }
 			 
-\<\/{name}{whitespace}*/> { 
+\<\/{name}{whitespace}*\> { 
 	//printf("unknown end tag: %s\n", yytext);
 	printf("WARNING: unknown end tag %s, %d\n", yytext, line);
 	//tagStackCheck(yytext);
 	//return COMMON_TAG_CLOSE;
 }
 
-\<\/{oldVersionTags} { 
+\<\/{oldVersionTags}{whitespace}*\> { 
 	//printf("old version end tag: %s\n", yytext);
 	printf("WARNING: no HTML5 end tag %s, %d\n", yytext, line);
 	tagStackCheck(yytext);
