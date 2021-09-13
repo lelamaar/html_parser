@@ -24,6 +24,7 @@ comments_before_open_tag: TAG_COMMENT_START TAG_COMMENT_END
 						| comments_before_open_tag TAG_COMMENT_START TAG_COMMENT_END
 
 html_section: html_section_start head_section body_section TAG_HTML_CLOSE
+			| html_section_start head_section body_section TAG_HTML_CLOSE comments_before_open_tag
 
 html_section_start: TAG_HTML payload
 				  | comments_before_open_tag TAG_HTML payload
