@@ -61,7 +61,7 @@ attributes7			[oO][nN][mM][oO][uU][sS][eE][dD][oO][wW][nN]|[oO][nN][mM][oO][uU][
 attributes8			[oO][nN][pP][lL][aA][yY]|[oO][nN][pP][lL][aA][yY][iI][nN][gG]|[oO][nN][pP][oO][pP][sS][tT][aA][tT][eE]|[oO][nN][pP][rR][oO][gG][rR][eE][sS][sS]|[oO][nN][rR][aA][tT][eE][cC][hH][aA][nN][gG][eE]|[oO][nN][rR][eE][sS][eE][tT]|[oO][nN][rR][eE][sS][iI][zZ][eE]|[oO][nN][sS][cC][rR][oO][lL][lL]|[oO][nN][sS][eE][aA][rR][cC][hH]|[oO][nN][sS][eE][eE][kK][eE][dD]|[oO][nN][sS][eE][eE][kK][iI][nN][gG]|[oO][nN][sS][eE][lL][eE][cC][tT]|[oO][nN][sS][tT][aA][lL][lL][eE][dD]|[oO][nN][sS][tT][oO][rR][aA][gG][eE]
 attributes9			[oO][nN][sS][uU][bB][mM][iI][tT]|[oO][nN][sS][uU][sS][pP][eE][nN][dD]|[oO][nN][tT][iI][mM][eE][uU][pP][dD][aA][tT][eE]|[oO][nN][tT][oO][gG][gG][lL][eE]|[oO][nN][uU][nN][lL][oO][aA][dD]|[oO][nN][vV][oO][lL][uU][mM][eE][cC][hH][aA][nN][gG][eE]|[oO][nN][wW][aA][iI][tT][iI][nN][gG]|[oO][nN][wW][hH][eE][eE][lL]|[oO][pP][eE][nN]|[oO][pP][tT][iI][mM][uU][mM]|[pP][aA][tT][tT][eE][rR][nN]|[pP][lL][aA][cC][eE][hH][oO][lL][dD][eE][rR]|[pP][oO][sS][tT][eE][rR]|[pP][rR][eE][lL][oO][aA][dD]
 attributes10		[rR][eE][aA][dD][oO][nN][lL][yY]|[rR][eE][lL]|[rR][eE][qQ][uU][iI][rR][eE][dD]|[rR][eE][vV][eE][rR][sS][eE][dD]|[rR][oO][wW][sS]|[rR][oO][wW][sS][pP][aA][nN]|[sS][aA][nN][dD][bB][oO][xX]|[sS][cC][oO][pP][eE]|[sS][eE][lL][eE][cC][tT][eE][dD]|[sS][hH][aA][pP][eE]|[sS][iI][zZ][eE]|[sS][iI][zZ][eE][sS]|[sS][pP][aA][nN]|[sS][pP][eE][lL][lL][cC][hH][eE][cC][kK]|[sS][rR][cC]|[sS][rR][cC][dD][oO][cC]|[sS][rR][cC][lL][aA][nN][gG]|[sS][rR][cC][sS][eE][tT]|[sS][tT][aA][rR][tT]|[sS][tT][eE][pP]
-attributes11		[tT][aA][bB][iI][nN][dD][eE][xX]|[tT][aA][rR][gG][eE][tT]|[tT][rR][aA][nN][sS][lL][aA][tT][eE]|[tT][yY][pP][eE]|[uU][sS][eE][mM][aA][pP]|[vV][aA][lL][uU][eE]|[wW][iI][dD][tT][hH]|[wW][rR][aA][pP]|[pP][rR][oO][pP][eE][rR][tT][yY]|[sS][tT][yY][lL][eE]|[rR][oO][lL][eE]
+attributes11		[tT][aA][bB][iI][nN][dD][eE][xX]|[tT][aA][rR][gG][eE][tT]|[tT][rR][aA][nN][sS][lL][aA][tT][eE]|[tT][yY][pP][eE]|[uU][sS][eE][mM][aA][pP]|[vV][aA][lL][uU][eE]|[wW][iI][dD][tT][hH]|[wW][rR][aA][pP]|[pP][rR][oO][pP][eE][rR][tT][yY]|[sS][tT][yY][lL][eE]|[rR][oO][lL][eE]|[tT][iI][tT][lL][eE]
 attributesALL       {attributes1}|{attributes2}|{attributes3}|{attributes4}|{attributes5}|{attributes6}|{attributes7}|{attributes8}|{attributes9}|{attributes10}|{attributes11}
 oldVersionAttr		[aA][lL][iI][gG][nN]|[bB][gG][cC][oO][lL][oO][rR]|[bB][oO][rR][dD][eE][rR]|[cC][oO][lL][oO][rR]
 attrWithoutValue	[iI][tT][eE][mM][sS][cC][oO][pP][eE]|[aA][sS][yY][nN][cC]|[dD][eE][fF][eE][rR]
@@ -175,6 +175,13 @@ tagDOCTYPEold		\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL][ ]+[pP][uU][bB
 	BEGIN(attr_exp);
 	return COMMON_TAG;
 }
+
+\<\/{oldVersionTags}{whitespace}*\> { 
+	//printf("old version end tag: %s\n", yytext);
+	printf("WARNING: no HTML5 end tag %s, %d\n", yytext, line);
+	tagStackCheck(yytext);
+	return COMMON_TAG_CLOSE;
+}
 			 
 \<{voidTags} {
 	//printf("void tag: %s\n", yytext);
@@ -223,14 +230,6 @@ tagDOCTYPEold		\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL][ ]+[pP][uU][bB
 	printf("WARNING: unknown end tag %s, %d\n", yytext, line);
 	//tagStackCheck(yytext);
 	//return COMMON_TAG_CLOSE;
-}
-
-\<\/{oldVersionTags}{whitespace}*\> { 
-	//printf("old version end tag: %s\n", yytext);
-	printf("WARNING: no HTML5 end tag %s, %d\n", yytext, line);
-	tagStackCheck(yytext);
-	BEGIN(attr_exp);
-	return COMMON_TAG_CLOSE;
 }
 
 <tagDOCTYPEold_close_exp>{
