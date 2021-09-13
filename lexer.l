@@ -80,8 +80,9 @@ tagDOCTYPEold		\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL][ ]+[pP][uU][bB
 
 \<{tagDOCTYPEold} {
 	//printf("docktype: %s\n", yytext);
-	printf("ERROR: non-HTML5 docktype element on line %d.\n", line);
-	exit(-1);
+	printf("WARNING: non-HTML5 docktype element on line %d.\n", line);
+	//exit(-1);
+	return TAG_DOCKTYPE;
 }
 
 {xmlTAG} {
@@ -204,6 +205,10 @@ tagDOCTYPEold		\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL][ ]+[pP][uU][bB
 	return COMMON_TAG_CLOSE;
 }
 			 
+\<\/{voidTags}{whitespace}*\> {
+	printf("WARNING: non-HTML5 construction: %s, %d\n", yytext, line);
+}
+			 
 \<{name} { 
 	//printf("unknown start tag: %s\n", yytext);
 	printf("WARNING: unknown tag %s, %d\n", yytext, line);
@@ -225,10 +230,6 @@ tagDOCTYPEold		\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL][ ]+[pP][uU][bB
 	tagStackCheck(yytext);
 	BEGIN(attr_exp);
 	return COMMON_TAG_CLOSE;
-}
-			 
-\<\/{voidTags} {
-	printf("WARNING: non-HTML5 construction: %s, %d\n", yytext, line);
 }
 
 <attr_exp>{
