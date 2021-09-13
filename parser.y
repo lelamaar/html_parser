@@ -52,6 +52,7 @@ body_section_content:
 	   | body_section_content COMMON_TAG payload body_section_content COMMON_TAG_CLOSE
 	   | body_section_content GENERAL_TAG payload body_section_content GENERAL_TAG_CLOSE
 	   | body_section_content COMMON_VOID_TAG payload
+	   | body_section_content HEAD_SECTION_VOID_TAG payload
 	   | body_section_content TAG_SCRIPT payload TAG_SCRIPT_CLOSE
 	   | body_section_content TAG_COMMENT_START TAG_COMMENT_END
 

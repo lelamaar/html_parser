@@ -21,6 +21,7 @@
 %x style_attr_exp
 %x script_section
 %x script_attr_exp
+%x tagDOCTYPEold_close_exp
 
 whitespace			[ \t\r\n]
 int       			[0-9]+
@@ -79,10 +80,10 @@ tagDOCTYPEold		\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL][ ]+[pP][uU][bB
 }
 
 \<{tagDOCTYPEold} {
-	//printf("docktype: %s\n", yytext);
 	printf("WARNING: non-HTML5 docktype element on line %d.\n", line);
 	//exit(-1);
-	return TAG_DOCKTYPE;
+	//return TAG_DOCKTYPE;
+	BEGIN(tagDOCTYPEold_close_exp);
 }
 
 {xmlTAG} {
@@ -230,6 +231,24 @@ tagDOCTYPEold		\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL][ ]+[pP][uU][bB
 	tagStackCheck(yytext);
 	BEGIN(attr_exp);
 	return COMMON_TAG_CLOSE;
+}
+
+<tagDOCTYPEold_close_exp>{
+	[>] {
+		BEGIN(0);
+		return TAG_DOCKTYPE;
+	}
+
+	[<] {
+		printf("ERROR: unclosed doctype tag.\n");
+		exit(-1);
+	}
+
+	[\n] {
+		line++;
+	}
+
+	. ;
 }
 
 <attr_exp>{
@@ -425,7 +444,7 @@ tagDOCTYPEold		\![dD][oO][cC][tT][yY][pP][eE][ ]+[hH][tT][mM][lL][ ]+[pP][uU][bB
 }
 
 {commentTagStart} {
-	//printf("comment open: %s\n", yytext);
+	//printf("comment open: %s, %d\n", yytext, line);
 	BEGIN(comment_continue);
 	return TAG_COMMENT_START;
 }
